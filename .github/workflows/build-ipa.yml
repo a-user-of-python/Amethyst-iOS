@@ -17,7 +17,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          submodules: recursive
+          submodules: false
+
+      - name: Init submodules
+        run: |
+          git submodule update --init --recursive --depth 1 || {
+            echo "Submodule init failed, trying without depth limit"
+            git submodule update --init --recursive
+          }
 
       - name: Select Xcode
         run: sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
