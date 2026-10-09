@@ -33,6 +33,12 @@ jobs:
         run: |
           brew install make cmake ninja pkg-config
 
+      - name: Setup JDK 8
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '8'
+
       - name: Build IPA
         run: |
           export PATH=/opt/homebrew/bin:$PATH
