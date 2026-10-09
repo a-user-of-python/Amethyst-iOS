@@ -21,10 +21,16 @@ jobs:
 
       - name: Init submodules
         run: |
-          git submodule update --init --recursive --depth 1 || {
-            echo "Submodule init failed, trying without depth limit"
-            git submodule update --init --recursive
-          }
+          git config --global protocol.file.allow always
+          for mod in $(git config --file .gitmodules --get-regexp path | awk '{print $2}'); do
+            section=$(git config --file .gitmodules --get-regexp 'submodule\..*\.path' | grep "$mod$" | sed 's/submodule\.\(.*\)\.path/\1/')
+            url=$(git config --file .gitmodules --get "submodule.$section.url")
+            case "$url" in
+              *khanhduytran0*) echo "Skipping deleted repo: $mod ($url)"; continue;;
+            esac
+            echo "Init: $mod"
+            git submodule update --init --depth 1 "$mod" || git submodule update --init "$mod" || echo "Failed: $mod"
+          done
 
       - name: Select Xcode
         run: sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
@@ -32,12 +38,6 @@ jobs:
       - name: Install dependencies
         run: |
           brew install make cmake ninja pkg-config
-
-      - name: Build MobileGlues
-        run: |
-          cd Natives/external/MobileGlues
-          # MobileGlues build for iOS via Amethyst's Makefile handles this
-          cd ../..
 
       - name: Build IPA
         run: |
