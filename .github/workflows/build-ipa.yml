@@ -25,7 +25,7 @@ jobs:
       - name: Install dependencies
         run: |
           brew install make cmake ninja pkg-config ldid
-          brew install --cask zulu8
+          brew install --cask zulu@8
 
       - name: Build IPA
         env:
