@@ -9,5 +9,5 @@
 	url = https://github.com/AFNetworking/AFNetworking
 [submodule "Natives/external/MobileGlues"]
 	path = Natives/external/MobileGlues
-	url = https://github.com/MobileGL-Dev/MobileGlues
+	url = https://github.com/a-user-of-python/MobileGlues
 	branch = main
