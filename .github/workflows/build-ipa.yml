@@ -25,6 +25,7 @@ jobs:
           sed -i '' 's|#include <sys/syscall.h>|#include <pthread.h>|' Natives/external/MobileGlues/MobileGlues-cpp/egl/trace.h
           sed -i '' 's/return (int)syscall(__NR_gettid);/uint64_t _tid; pthread_threadid_np(NULL, \&_tid); return (int)_tid;/' Natives/external/MobileGlues/MobileGlues-cpp/egl/trace.h
           sed -i '' 's/target_link_options(${CMAKE_PROJECT_NAME} PRIVATE -Wl,-Bsymbolic-functions)//' Natives/external/MobileGlues/MobileGlues-cpp/CMakeLists.txt
+          sed -i '' 's/global_settings.ignore_error = IgnoreErrorLevel::Partial;/global_settings.ignore_error = IgnoreErrorLevel::Full;/' Natives/external/MobileGlues/MobileGlues-cpp/config/settings.cpp
           echo "Patched MobileGlues for Darwin"
 
       - name: Select Xcode
